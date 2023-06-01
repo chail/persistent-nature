@@ -317,12 +317,6 @@ Based on this representation, we learn a generative world model solely from sing
 Our method enables simulating long flights through 3D landscapes, while maintaining global scene consistency--for instance, returning to the starting point yields the same view of the scene. 
 Our approach enables scene extrapolation beyond the fixed bounds of current 3D generative models, while also supporting a persistent, camera-independent world representation that stands in contrast to auto-regressive 3D prediction models.
           </p>
-					<div align="center" style="margin-top:0px;" style="margin-bottom:0px;">
-						<video poster="" id="toby" autoplay playsinline controls muted loop width="600px">
-							<source src="static/videos/sky360_interactive_944.mp4"
-											type="video/mp4">
-						</video>
-					</div>
         </div>
 			<hr>
       </div>
@@ -336,201 +330,15 @@ Our approach enables scene extrapolation beyond the fixed bounds of current 3D g
 		<!--Sections. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h3 class="title is-3">Method Summary</h3>
+        <h3 class="title is-3">Summary Video</h3>
         <div class="content has-text-justified">
-					<div align="center" style="margin-top:0px;" style="margin-bottom:0px;">
-						<img style='height: auto; width: 100%; object-fit: contain' src="static/images/schematic.png" alt="overview_image">
-					</div> 
-          <p>
-					Our scene representation is a 2D layout feature grid corresponding to the ground plane. These 2D features are lifted into 3D features using a decoder network that also takes in the height of a point above the ground plane. The 3D features are then volume-rendered to produce low-resolution colors and geometry. A refinement network takes the low resolution output to produce the final output. At this stage, the sky is rendered as empty space and filled in later with the skydome generator which represents infinitely far content. Our model is trained on unposed, single-view landscape photos.
-          </p>
-					<hr>
-					<div align="center" style="margin-top:0px;" style="margin-bottom:0px;">
-						<img style='height: auto; width: 60%; object-fit: contain' src="static/images/feature_stitch.png" alt="overview_image">
-					</div> 
-          <p>
-					At inference time, we can expand the 2D layout feature grid to arbitrary dimensions. This proceeds by sampling a grid of independent latent codes and iteratively blending 2-by-2 units to obtain smooth transitions in the enlarged feature grid.
-          </p>
-					<hr>
-					<div align="center" style="margin-top:0px;" style="margin-bottom:0px;">
-						<img style='height: auto; width: 60%; object-fit: contain' src="static/images/skydome.png" alt="overview_image">
-					</div> 
-          <p>
-					Content at infinite distances is filled with a separate skydome. The skydome model conditions on a generated terrain image and produces a 360-degree panorama that is consistent with the terrain.
-          </p>
-					<hr>
+					<center>
+						<iframe width="750" height="422" src="https://www.youtube.com/embed/5s1WnwRHmIs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					</center>
         </div>
       </div>
     </div>
     
-		<div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h3 class="title is-3">Model Comparisons</h3>
-					<div class="content has-text-justified">
-							Generative models such as <a href="https://nvlabs.github.io/eg3d/">EG3D</a> and <a href="https://apple.github.io/ml-gsn/">GSN</a> have persistent representations but operate on bounded volumes. Our model is capable of representing an unbounded scene.
-					</div>
-
-					<table style="text-align: center;" class="center">
-						<tr>
-							<td colspan="3">
-									<p style="text-align: center; font-size: 20px">Forward and Backward Camera Motions</p>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">Our Model</p>
-									<video autoplay controls muted loop playsinline id="result_video_three_panels">
-											<source type="video/mp4" src="static/videos/model/0041-v3-avoid-land-cycle-largedepthv2-trunc08-acc_sharpen-frames500-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">EG3D</p>
-									<video  autoplay controls muted loop playsinline id="result_video_three_panels"> 
-											<source type="video/mp4" src="static/videos/eg3d/0079-v3-avoid-land-cycle-trunc08-frames500-deterministic-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">GSN</p>
-									<video  autoplay controls muted loop playsinline id="result_video_three_panels"> 
-											<source type="video/mp4" src="static/videos/gsn/0056-v3-avoid-land-cycle-trunc08-frames500-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-									<p style="text-align: center; font-size: 20px">Rotating Camera Motions</p>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">Our Model</p>
-									<video autoplay controls muted loop playsinline id="result_video_three_panels">
-											<source type="video/mp4" src="static/videos/model/0041-v3-avoid-land-rotate-largedepthv2-trunc08-acc_sharpen-frames180-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">EG3D</p>
-									<video  autoplay controls muted loop playsinline id="result_video_three_panels"> 
-											<source type="video/mp4" src="static/videos/eg3d/0079-v3-avoid-land-rotate-trunc08-frames180-deterministic-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">GSN</p>
-									<video  autoplay controls muted loop playsinline id="result_video_three_panels"> 
-											<source type="video/mp4" src="static/videos/gsn/0056-v3-avoid-land-rotate-trunc08-frames180-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-						</tr>
-					</table>	
-
-					<div class="clear"></div>
-
-					<hr>
-							
-					<div class="content has-text-justified">
-						Auto-regressive models such as <a href="https://infinite-nature-zero.github.io/">InfiniteNature-Zero</a> can represent unbounded scenes, but have no persistent representation, so the scene changes when moving the camera in a cyclical pattern. Auto-regressive models perform best on predominately forward motions, while our model can support arbitrary camera motions including cyclic ones.
-					</div>
-					<table style="text-align: center;" class="center">
-						<tr>
-							<td colspan="2">
-									<p style="text-align: center">Our Model</p>
-							</td>
-							<td colspan="2">
-									<p style="text-align: center">InfiniteNature-Zero</p>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<video autoplay controls muted loop playsinline id="result_video_four_panels">
-											<source type="video/mp4" src="static/videos/model/0014-v3-avoid-land-cycle-largedepthv2-trunc08-acc_sharpen-frames500-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td style="padding-right:10px">
-								<div id="wrapper" style="text-align:center;"> 
-									<video autoplay controls muted loop playsinline id="result_video_four_panels">
-											<source type="video/mp4" src="static/videos/model/0020-v3-avoid-land-cycle-largedepthv2-trunc08-acc_sharpen-frames500-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<video autoplay controls muted loop playsinline id="result_video_four_panels">
-											<source type="video/mp4" src="static/videos/infnatzero/0014-v3-avoid-land-cycle-largedemp4v2-trunc08-acc_sharpen-frames500-smoothend90-sky360-initial_frame.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td>
-								<div id="wrapper" style="text-align:center;"> 
-									<video autoplay controls muted loop playsinline id="result_video_four_panels">
-											<source type="video/mp4" src="static/videos/infnatzero/0020-v3-avoid-land-cycle-largedemp4v2-trunc08-acc_sharpen-frames500-smoothend90-sky360-initial_frame.mp4" /> 
-									</video>
-								</div>
-							</td>
-						</tr>
-					</table>	
-
-					<hr>
-
-					<div class="content has-text-justified">
-							We find that adding a 3D consistent noise pattern can improve textural details while eliminating sticking artifacts, while models without noise generate grid-like textures.
-					</div>
-					<table style="text-align: center;" class="center">
-						<tr>
-							<td style="padding:5px">
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">3D noise RGB </p>
-									<video autoplay controls muted loop playsinline id="result_video_four_panels">
-											<source type="video/mp4" src="static/videos/model/0002-v3-avoid-land-cycle-largedepthv2-trunc08-acc_sharpen-frames500-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td style="padding:5px">
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">3D noise pattern</p>
-									<video autoplay controls muted loop playsinline id="result_video_four_panels"> 
-											<source type="video/mp4" src="static/videos/model/0002-v3-avoid-land-cycle-largedepthv2-trunc08-acc_sharpen-frames500-smoothend90-sky360-3dnoise.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td style="padding:5px">
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">2D noise</p>
-									<video autoplay controls muted loop playsinline id="result_video_four_panels"> 
-											<source type="video/mp4" src="static/videos/model_static_noise_upg/0002-v3-avoid-land-cycle-large-trunc08-acc_sharpen-frames500-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-							<td style="padding:5px">
-								<div id="wrapper" style="text-align:center;"> 
-									<p style="text-align: center;">Without noise</p>
-									<video  autoplay controls muted loop playsinline id="result_video_four_panels"> 
-											<source type="video/mp4" src="static/videos/model_no_noise/0002-v3-avoid-land-cycle-large-trunc08-acc_sharpen-frames500-smoothend90-sky360-skip00.mp4" /> 
-									</video>
-								</div>
-							</td>
-						</tr>
-					</table>	
-
-					<div class="clear"></div>
-					
-					<hr>
-
-      </div>
-    </div>
 		<div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h3 class="title is-3">Extendable Triplane Variation</h3>
